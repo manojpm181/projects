@@ -29,41 +29,35 @@ A production-grade Model Context Protocol (MCP) server providing 8 powerful fina
 - Claude Desktop or Cursor (optional)
 
 ### 2. One-Command Setup
-```bash
-git clone <your-repo-url>
-cd mcp-financial-server
-chmod +x scripts/setup.sh
-./scripts/setup.sh
+
+    git clone https://github.com/manojpm181/projects/mcp-financial-server
+    cd mcp-financial-server
+    chmod +x scripts/setup.sh
+    ./scripts/setup.sh
 3. Configure Supabase
-Go to supabase.com and create free account
-
-Create new project
-
-Get your:
-
-Project URL (SUPABASE_URL)
-
-Anon Key (SUPABASE_ANON_KEY)
-
-Add to .env file
+- Go to supabase.com and create free account
+- Create new project
+    Get your:
+    - Project URL (SUPABASE_URL)
+    - Anon Key (SUPABASE_ANON_KEY)
+    - Add to .env file
 
 4. Run Database Setup
-bash
 # Create tables (run in Supabase SQL Editor)
-cat database/schema.sql
+    cat database/schema.sql
 
 # Seed with sample data
-npm run seed
+    npm run seed
 5. Start Server
-bash
+
 # For Claude Desktop/Cursor:
-npm start
+    npm start
 
 # For web testing:
-npm run start:sse
+    npm run start:sse
 # Visit: http://localhost:3001
 🔌 Client Configuration
-Claude Desktop
+    Claude Desktop
 Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
 
 json
