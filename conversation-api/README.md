@@ -49,22 +49,21 @@ A production-grade REST API for AI-powered conversations with streaming support,
 - Installation
    - Clone the repository
 
-          git clone https://github.com/yourusername/conversation-api
+          git clone https://github.com/manojpm181/projects.git
           cd conversation-api
      
 - Set up virtual environment
 
       python3 -m venv venv
       venv\Scripts\activate
-      Install dependencies
+- Install dependencies
 
       pip install -r requirements.txt
   
 - Configure environment variables
 
       cp .env.example .env
--  # Edit .env with your credentials
-
+- Edit .env with your credentials
 
         Run database migrations
 
