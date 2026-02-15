@@ -34,7 +34,8 @@ A production-grade Model Context Protocol (MCP) server providing 8 powerful fina
     cd mcp-financial-server
     chmod +x scripts/setup.sh
     ./scripts/setup.sh
-3. Configure Supabase
+    
+### 3. Configure Supabase
 - Go to supabase.com and create free account
 - Create new project
     Get your:
@@ -42,7 +43,7 @@ A production-grade Model Context Protocol (MCP) server providing 8 powerful fina
     - Anon Key (SUPABASE_ANON_KEY)
     - Add to .env file
 
-4. Run Database Setup
+### 4. Run Database Setup
 # Create tables (run in Supabase SQL Editor)
     cat database/schema.sql
 
@@ -56,191 +57,174 @@ A production-grade Model Context Protocol (MCP) server providing 8 powerful fina
 # For web testing:
     npm run start:sse
 # Visit: http://localhost:3001
-🔌 Client Configuration
-    Claude Desktop
-Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
 
-json
-{
-  "mcpServers": {
-    "financial-data": {
-      "command": "node",
-      "args": ["/absolute/path/to/mcp-financial-server/dist/index.js"],
-      "env": {
-        "SUPABASE_URL": "https://your-project-ref.supabase.co",
-        "SUPABASE_ANON_KEY": "your-anon-key"
+##🔌 Client Configuration
+### Claude Desktop
+  
+    Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
+    
+    json
+        {
+          "mcpServers": {
+            "financial-data": {
+              "command": "node",
+              "args": ["/absolute/path/to/mcp-financial-server/dist/index.js"],
+              "env": {
+                "SUPABASE_URL": "https://your-project-ref.supabase.co",
+                "SUPABASE_ANON_KEY": "your-anon-key"
+              }
+            }
+          }
+        }
+### Cursor
+    Add to ~/.cursor/mcp.json:
+    
+    json
+    {
+      "mcpServers": {
+        "financial-data": {
+          "command": "node",
+          "args": ["/absolute/path/to/mcp-financial-server/dist/index.js"],
+          "env": {
+            "SUPABASE_URL": "https://your-project-ref.supabase.co",
+            "SUPABASE_ANON_KEY": "your-anon-key"
+          }
+        }
       }
     }
-  }
-}
-Cursor
-Add to ~/.cursor/mcp.json:
-
-json
-{
-  "mcpServers": {
-    "financial-data": {
-      "command": "node",
-      "args": ["/absolute/path/to/mcp-financial-server/dist/index.js"],
-      "env": {
-        "SUPABASE_URL": "https://your-project-ref.supabase.co",
-        "SUPABASE_ANON_KEY": "your-anon-key"
-      }
-    }
-  }
-}
-📊 Tool Examples
+### Tool Examples
 Get Company Profile
-json
-{
-  "name": "get_company_profile",
-  "arguments": {
-    "identifier": "AAPL"
-  }
-}
+
+        json
+        {
+          "name": "get_company_profile",
+          "arguments": {
+            "identifier": "AAPL"
+          }
+        }
 Compare Companies
-json
-{
-  "name": "compare_companies",
-  "arguments": {
-    "tickers": ["AAPL", "MSFT", "GOOGL"]
-  }
-}
+
+        json
+        {
+          "name": "compare_companies",
+          "arguments": {
+            "tickers": ["AAPL", "MSFT", "GOOGL"]
+          }
+        }
 Screen Stocks
-json
-{
-  "name": "screen_stocks",
-  "arguments": {
-    "min_revenue": 50000,
-    "min_gross_margin": 40,
-    "sector": "Technology"
-  }
+
+        json
+        {
+          "name": "screen_stocks",
+          "arguments": {
+            "min_revenue": 50000,
+            "min_gross_margin": 40,
+            "sector": "Technology"
+          }
 }
-🧪 Testing
-bash
+## Testing
+
 # Run tests
-npm test
+    npm test
 
 # Development with hot reload
-npm run dev
+    npm run dev
 
 # Build for production
-npm run build
-📁 Project Structure
-text
-mcp-financial-server/
-├── src/                    # Source code
-│   ├── index.ts           # Main server
-│   ├── config/            # Configuration
-│   ├── db/               # Database layer
-│   ├── tools/            # 8 MCP tools
-│   ├── validators/       # Input validation
-│   └── utils/            # Utilities
-├── database/             # SQL schemas & seeds
-├── tests/               # Test suite
-├── scripts/             # Setup scripts
-└── docs/               # Documentation
-🔒 Security
-Row Level Security enabled
+    npm run build
+##  Project Structure
 
-Input validation with Zod
+    mcp-financial-server/
+    ├── src/                    # Source code
+    │   ├── index.ts           # Main server
+    │   ├── config/            # Configuration
+    │   ├── db/               # Database layer
+    │   ├── tools/            # 8 MCP tools
+    │   ├── validators/       # Input validation
+    │   └── utils/            # Utilities
+    ├── database/             # SQL schemas & seeds
+    ├── tests/               # Test suite
+    ├── scripts/             # Setup scripts
+    └── docs/               # Documentation
+##  Security
+- Row Level Security enabled
+- Input validation with Zod
+- No SQL injection vulnerabilities
+- Environment variables for secrets
+- Rate limiting on SSE endpoints
 
-No SQL injection vulnerabilities
+## Deployment
 
-Environment variables for secrets
-
-Rate limiting on SSE endpoints
-
-🚀 Deployment
-bash
 # Production build
-npm run build
+    npm run build
 
 # Run in production
-NODE_ENV=production npm start
+    NODE_ENV=production npm start
 
 # Docker (optional)
-docker build -t mcp-financial-server .
-docker run -p 3001:3001 --env-file .env mcp-financial-server
-🆘 Troubleshooting
-Database Connection Failed
-Check .env file has correct Supabase credentials
+    docker build -t mcp-financial-server .
+    docker run -p 3001:3001 --env-file .env mcp-financial-server
+##  Troubleshooting
+- Database Connection Failed
+- Check .env file has correct Supabase credentials
 
-Run tables creation: cat database/schema.sql | psql YOUR_DB_URL
+- Run tables creation: cat database/schema.sql | psql YOUR_DB_URL
 
-Test connection: node -e "require('./src/db/client.ts').testConnection()"
+- Test connection: node -e "require('./src/db/client.ts').testConnection()"
 
-Tools Not Working
-Check server is running: npm start
+- Tools Not Working
+    - Check server is running: npm start
+    - Verify database has data: npm run seed
+    - Check logs for errors
+- Claude Desktop Not Connecting
+- Ensure absolute path in config
 
-Verify database has data: npm run seed
+- Restart Claude Desktop after config change
 
-Check logs for errors
+- Check Claude logs: Help → Debug → View Logs
 
-Claude Desktop Not Connecting
-Ensure absolute path in config
+##  Sample Data
+- 25+ real companies (AAPL, MSFT, GOOGL, etc.)
+- 4 quarters of financial data per company
+- 90 days of stock price history
+- Analyst ratings from top firms
 
-Restart Claude Desktop after config change
+## Contributing
+- Fork the repository
+- Create feature branch
+- Make changes
+- Add tests
+- Submit PR
 
-Check Claude logs: Help → Debug → View Logs
 
-📈 Sample Data
-25+ real companies (AAPL, MSFT, GOOGL, etc.)
-
-4 quarters of financial data per company
-
-90 days of stock price history
-
-Analyst ratings from top firms
-
-🤝 Contributing
-Fork the repository
-
-Create feature branch
-
-Make changes
-
-Add tests
-
-Submit PR
-
-📄 License
-MIT
-
-🙏 Acknowledgments
-Model Context Protocol team
-
-Supabase for amazing backend
-
-All contributors
-
-Ready to analyze financial data with AI! 🚀
-
-text
+## Acknowledgments
+- Model Context Protocol team
+- Supabase for amazing backend
+- All contributors
+- Ready to analyze financial data with AI! 
 
 ### **STEP 6: TEST THE COMPLETE SERVER**
 
-```bash
 # Build the project
-npm run build
+    npm run build
 
 # Run in stdio mode (test in terminal)
-npm start
+    npm start
 
 # In another terminal, test with curl (for SSE mode)
-npm run start:sse
+    npm run start:sse
 
 # Test SSE endpoint
-curl -X POST http://localhost:3001/message \
-  -H "Content-Type: application/json" \
-  -d '{
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "tools/call",
-    "params": {
-      "name": "get_company_profile",
-      "arguments": {
-        "identifier": "AAPL"
-      }
-    }
-  }'
+    curl -X POST http://localhost:3001/message \
+      -H "Content-Type: application/json" \
+      -d '{
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {
+          "name": "get_company_profile",
+          "arguments": {
+            "identifier": "AAPL"
+          }
+        }
+      }'
