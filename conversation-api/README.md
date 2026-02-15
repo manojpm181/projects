@@ -1,7 +1,7 @@
-📚 Conversation API
+### 📚 Conversation API
 A production-grade REST API for AI-powered conversations with streaming support, built with FastAPI.
 
-✨ Features
+### ✨ Features
 Real-time Streaming: Server-Sent Events (SSE) with token-by-token delivery
 
 Multi-LLM Support: Integration with Groq API (Llama3, Mixtral, Gemma)
