@@ -1,225 +1,230 @@
-# 💬 100% FREE AI Conversation API
+📚 Conversation API
+A production-grade REST API for AI-powered conversations with streaming support, built with FastAPI.
 
-A production-grade conversation API built entirely with **FREE services** - no credit card required!
+✨ Features
+Real-time Streaming: Server-Sent Events (SSE) with token-by-token delivery
 
-## 🎯 Why This is Free
+Multi-LLM Support: Integration with Groq API (Llama3, Mixtral, Gemma)
 
-| Service | Free Tier | Limits |
-|---------|----------|--------|
-| **Groq** | 30 req/min, 14,400 req/day | Completely free, no CC |
-| **Supabase** | 500MB DB, 2 concurrent | Email auth included |
-| **Render** | 512MB RAM, 1 CPU | Web service hosting |
-| **FastAPI** | Open source | No cost |
+Authentication: JWT-based auth with Supabase
 
-## ✨ Features
+Conversation Management: Create, update, delete, and list conversations
 
-- ✅ **Real LLM** - Groq's Llama3, Mixtral, Gemma (FREE)
-- ✅ **Real Database** - Supabase PostgreSQL (FREE)
-- ✅ **Real Auth** - Supabase Auth with JWT (FREE)
-- ✅ **Real Streaming** - SSE with token-by-token delivery
-- ✅ **Rate Limiting** - In-memory (FREE)
-- ✅ **Conversation Management** - Create, update, delete
-- ✅ **Token Counting** - Approximate (FREE)
-- ✅ **Swagger Docs** - Auto-generated API documentation
-- ✅ **Docker Support** - Container ready
-- ✅ **Deploy to Render** - One-click deployment
+Message History: Persistent storage of all conversations
 
-## 🚀 Quick Start (5 Minutes)
+Rate Limiting: Protection against abuse
 
-### 1. Clone & Setup
-```bash
-git clone https://github.com/yourusername/conversation-api-free
-cd conversation-api-free
-chmod +x scripts/setup.sh
-./scripts/setup.sh
+Auto Documentation: Swagger UI at /docs
 
+Docker Support: Containerized deployment ready
 
+🛠️ Tech Stack
+Framework: FastAPI (Python)
 
+Database: Supabase PostgreSQL
 
-2. Configure Supabase (FREE)
-Go to supabase.com → Start project
+Auth: Supabase Auth + JWT
 
-Create project: conversation-api
+LLM: Groq API
 
-Copy URL and anon key to .env
-
-Run database/schema.sql in Supabase SQL Editor
-
-3. Configure Groq (FREE)
-Go to console.groq.com → Sign up
-
-Create API key
-
-Copy key to .env
-
-4. Run the API
-bash
-source venv/bin/activate
-python -m src.main
-🎉 Done! Your API is running at http://localhost:8000
-
-📡 API Endpoints
-Authentication (Supabase Auth)
-text
-POST   /api/v1/auth/register     # Create account
-POST   /api/v1/auth/login        # Login → get JWT
-POST   /api/v1/auth/refresh      # Refresh token
-POST   /api/v1/auth/logout       # Logout
-GET    /api/v1/auth/me           # Get profile
-Conversations
-text
-POST   /api/v1/conversations           # Create conversation
-GET    /api/v1/conversations           # List conversations
-GET    /api/v1/conversations/{id}      # Get conversation
-PATCH  /api/v1/conversations/{id}      # Update conversation
-DELETE /api/v1/conversations/{id}      # Delete conversation
-Messages
-text
-GET    /api/v1/conversations/{id}/messages     # Get messages
-POST   /api/v1/conversations/{id}/messages     # Send (non-streaming)
-POST   /api/v1/streaming/conversations/{id}/stream  # Stream response
-🔌 Example Usage
-1. Register User
-bash
-curl -X POST http://localhost:8000/api/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password123"}'
-2. Login
-bash
-curl -X POST http://localhost:8000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password123"}'
-3. Create Conversation
-bash
-TOKEN="your-jwt-token"
-curl -X POST http://localhost:8000/api/v1/conversations \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"title":"My First Chat"}'
-4. Stream a Message (SSE)
-bash
-CONV_ID="your-conversation-id"
-curl -X POST "http://localhost:8000/api/v1/streaming/conversations/$CONV_ID/stream" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -H "Accept: text/event-stream" \
-  -d '{"message":"Hello, AI!","stream":true}'
-📊 Free Models Available
-Model	Context	Speed	Best For
-llama3-8b-8192	8K	⚡⚡⚡	General chat
-mixtral-8x7b-32768	32K	⚡⚡	Complex reasoning
-gemma2-9b-it	8K	⚡⚡⚡	Fast responses
-🐳 Docker Deployment
-bash
-# Build image
-docker build -t conversation-api-free .
-
-# Run container
-docker run -p 8000:8000 --env-file .env conversation-api-free
-🚀 Deploy to Render (FREE)
-Push code to GitHub
-
-Go to render.com
-
-Create new Web Service
-
-Connect GitHub repository
-
-Use render.yaml configuration
-
-Deploy!
+Streaming: Server-Sent Events (SSE)
 
 📁 Project Structure
 text
-conversation-api-free/
+conversation-api/
 ├── src/
-│   ├── main.py              # FastAPI app
+│   ├── main.py              # FastAPI application
 │   ├── api/                 # API endpoints
-│   ├── core/                # Config & Supabase
+│   │   └── v1/
+│   │       ├── endpoints/   # Route handlers
+│   │       └── schemas/     # Pydantic models
+│   ├── core/                # Configuration
 │   ├── services/            # Business logic
-│   ├── llm/                 # Groq integration
-│   └── middleware/          # Rate limiting
+│   ├── llm/                 # LLM integration
+│   └── middleware/          # Custom middleware
 ├── database/
-│   └── schema.sql           # Supabase tables
+│   └── schema.sql           # Database schema
 ├── scripts/
-│   └── setup.sh             # One-click setup
-├── .env.example             # Environment template
-├── requirements.txt         # Dependencies
-└── README.md
-🎯 Why This is Production Ready
-Real LLM - Not a mock, actual Groq inference
+│   └── setup.sh              # Setup script
+├── tests/                    # Test suite
+├── .env.example              # Environment variables
+├── requirements.txt          # Python dependencies
+└── README.md                 # Documentation
+🚀 Quick Start
+Prerequisites
+Python 3.10+
 
-Real Database - Persistent Supabase storage
+Supabase account
 
-Real Auth - Secure JWT authentication
+Groq API key
 
-Real Streaming - True SSE token-by-token
+Installation
+Clone the repository
 
-Rate Limiting - Prevents abuse
+bash
+git clone https://github.com/yourusername/conversation-api
+cd conversation-api
+Set up virtual environment
 
-Error Handling - Graceful failures
+bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+Install dependencies
 
-Logging - Request tracking
+bash
+pip install -r requirements.txt
+Configure environment variables
 
-CORS - Cross-origin support
+bash
+cp .env.example .env
+# Edit .env with your credentials
+Run database migrations
 
-Health Checks - Monitoring ready
+Copy database/schema.sql and run in Supabase SQL Editor
 
-Docker - Containerized deployment
+Start the server
 
-⚡ Performance
-Latency: 100-300ms first token (Groq is FAST)
+bash
+python -m src.main
+The API will be available at http://localhost:8000
 
-Throughput: 30 requests/minute (free tier)
+📡 API Endpoints
+Authentication
+Method	Endpoint	Description
+POST	/api/v1/auth/register	Create new account
+POST	/api/v1/auth/login	Login and get JWT
+POST	/api/v1/auth/refresh	Refresh access token
+POST	/api/v1/auth/logout	Logout user
+GET	/api/v1/auth/me	Get current user profile
+Conversations
+Method	Endpoint	Description
+POST	/api/v1/conversations	Create conversation
+GET	/api/v1/conversations	List conversations
+GET	/api/v1/conversations/{id}	Get conversation
+PATCH	/api/v1/conversations/{id}	Update conversation
+DELETE	/api/v1/conversations/{id}	Delete conversation
+Messages
+Method	Endpoint	Description
+GET	/api/v1/conversations/{id}/messages	Get messages
+POST	/api/v1/conversations/{id}/messages	Send message (non-streaming)
+POST	/api/v1/streaming/conversations/{id}/stream	Stream response
+🔌 Usage Examples
+Register a User
+bash
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword123",
+    "full_name": "John Doe"
+  }'
+Login
+bash
+curl -X POST http://localhost:8000/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword123"
+  }'
+Create Conversation
+bash
+curl -X POST http://localhost:8000/api/v1/conversations \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Technical Discussion"
+  }'
+Send Message (Non-streaming)
+bash
+curl -X POST http://localhost:8000/api/v1/conversations/CONVERSATION_ID/messages \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Explain quantum computing",
+    "stream": false
+  }'
+Stream Response (SSE)
+bash
+curl -X POST http://localhost:8000/api/v1/streaming/conversations/CONVERSATION_ID/stream \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream" \
+  -d '{
+    "message": "Tell me a story",
+    "stream": true
+  }'
+📊 Available Models
+Model	Context	Description
+llama3-8b-8192	8K tokens	Fast, general purpose
+mixtral-8x7b-32768	32K tokens	Complex reasoning
+gemma2-9b-it	8K tokens	Balanced performance
+🔧 Configuration
+Key environment variables in .env:
 
-Concurrency: 2 concurrent connections (Supabase free)
+env
+# Supabase
+SUPABASE_URL=your-project-url
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-Streaming: Real-time as tokens generate
+# Groq
+GROQ_API_KEY=your-groq-api-key
 
-🆘 Troubleshooting
-Supabase Connection Failed
+# JWT
+JWT_SECRET=your-jwt-secret
 
-Check URL and anon key in .env
+# Rate Limiting
+RATE_LIMIT_REQUESTS=30
+RATE_LIMIT_PERIOD=60
+🐳 Docker Deployment
+bash
+# Build image
+docker build -t conversation-api .
 
-Run schema.sql in SQL Editor
+# Run container
+docker run -p 8000:8000 --env-file .env conversation-api
+🧪 Testing
+bash
+# Run tests
+pytest
 
-Enable RLS policies
-
-Groq API Failed
-
-Verify API key in .env
-
-Check free tier limits (30/min)
-
-Try different model
-
-Rate Limit Exceeded
-
-Wait 60 seconds
-
-Default: 30 requests/minute
-
-Adjust in .env
-
+# Run with coverage
+pytest --cov=src tests/
 📈 Monitoring
 Health Check: GET /health
 
-Request IDs: X-Request-ID header
+API Documentation: GET /docs
 
-Logs: Console output
+Request IDs: Each request gets unique X-Request-ID
 
-Metrics: Coming soon
+🛡️ Security
+JWT authentication
+
+Rate limiting
+
+CORS protection
+
+Row Level Security in database
+
+Input validation with Pydantic
 
 🤝 Contributing
-Fork repository
+Fork the repository
 
-Create feature branch
+Create feature branch (git checkout -b feature/amazing-feature)
 
-Commit changes
+Commit changes (git commit -m 'Add amazing feature')
 
-Push to branch
+Push to branch (git push origin feature/amazing-feature)
 
-Open Pull Request
+Open a Pull Request
 
 📄 License
-MIT - Free for everyone, forever! 🎉
+MIT
+
+🙏 Acknowledgments
+FastAPI for the amazing framework
+
+Supabase for the backend platform
+
+Groq for the LLM inference API
